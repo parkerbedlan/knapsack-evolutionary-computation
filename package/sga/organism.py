@@ -16,6 +16,17 @@ class Organism:
         return ''.join([str(x) for x in self.chromosome]) + ' ' + str(self.fitness)
     
 
+    def mutate(self) -> None:
+        mutation_operators = {'bit flip': self.__bitflip}
+        mutation_operators[MUTATION_OPERATOR]()
+        self.__update_fitness()
+
+
+    def __bitflip(self) -> None:
+        index = randint(1, len(self.chromosome)) - 1
+        self.chromosome[index] = (self.chromosome[index] + 1) % 2
+
+
     def __lt__(self, other: object) -> bool:
         if not isinstance(other, Organism):
             return NotImplemented
@@ -38,14 +49,3 @@ class Organism:
             deduction = 0
         
         self.fitness = total_value + deduction
-
-
-    def mutate(self) -> None:
-        mutation_operators = {'bit flip': self.__bitflip}
-        mutation_operators[MUTATION_OPERATOR]()
-        self.__update_fitness()
-    
-
-    def __bitflip(self) -> None:
-        index = randint(1, len(self.chromosome)) - 1
-        self.chromosome[index] = (self.chromosome[index] + 1) % 2

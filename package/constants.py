@@ -13,7 +13,7 @@ def AsBit(before: int) -> Bit:
     return 0 if before == 0 else 1
 
 
-DATASET_NAME: str = 'p07.dat'
+DATASET_NAME: str = 'p08.dat'
 SELECTION_OPERATOR: Literal['tournament', 'roulette', 'rank']  = 'roulette'
 MUTATION_OPERATOR: Literal['bit flip', 'bit flip best of 3', 'PE', 'C3', 'SM'] = 'bit flip'
 MUTATION_RATE: float = .05

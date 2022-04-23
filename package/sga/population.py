@@ -12,7 +12,7 @@ class Population:
     def __init__(self):
         self.generation_number = 0
         chrom_len = len(ITEMS)
-        self.organisms = [Population.gen_random_org(chrom_len) for _ in range(POPULATION_SIZE)]
+        self.organisms = [Population.__gen_random_org(chrom_len) for _ in range(POPULATION_SIZE)]
         self.organisms.sort()
         self.best_organism_ever = self.get_best_organism()
 
@@ -48,6 +48,26 @@ class Population:
         self.best_organism_ever = max(self.best_organism_ever, self.get_best_organism())
 
 
+    def is_finished(self):
+        best_fitness = self.get_best_fitness()
+        worst_fitness = self.get_worst_fitness()
+        difference = abs(best_fitness - worst_fitness)
+        less_than_1percent_difference = difference < .01 * min(abs(best_fitness), abs(worst_fitness))
+        return less_than_1percent_difference or self.generation_number >= 1000
+
+
+    def get_best_organism(self) -> Organism:
+        return self.organisms[-1]
+
+
+    def get_best_fitness(self) -> int:
+        return self.organisms[-1].fitness
+    
+
+    def get_worst_fitness(self) -> int:
+        return self.organisms[0].fitness
+
+
     @staticmethod
     def __crossover(parent1: Organism, parent2: Organism) -> tuple[Organism, Organism]:
         crossover_operators = {'uniform': Population.__uniform}
@@ -56,7 +76,7 @@ class Population:
 
     @staticmethod
     def __uniform(parent1: Organism, parent2: Organism) -> tuple[Organism, Organism]:
-        mask = Population.gen_random_bitstring(len(parent1.chromosome))
+        mask = Population.__gen_random_bitstring(len(parent1.chromosome))
         chromosome1: list[Bit] = []
         chromosome2: list[Bit] = []
         for i in range(len(mask)):
@@ -109,31 +129,11 @@ class Population:
         return NotImplemented
 
 
-    def is_finished(self):
-        best_fitness = self.get_best_fitness()
-        worst_fitness = self.get_worst_fitness()
-        difference = abs(best_fitness - worst_fitness)
-        less_than_1percent_difference = difference < .01 * min(abs(best_fitness), abs(worst_fitness))
-        return less_than_1percent_difference or self.generation_number >= 1000
-
-
-    def get_best_organism(self) -> Organism:
-        return self.organisms[-1]
-
-
-    def get_best_fitness(self) -> int:
-        return self.organisms[-1].fitness
-    
-
-    def get_worst_fitness(self) -> int:
-        return self.organisms[0].fitness
+    @staticmethod
+    def __gen_random_org(chrom_len: int) -> Organism:
+        return Organism(Population.__gen_random_bitstring(chrom_len))
 
 
     @staticmethod
-    def gen_random_org(chrom_len: int) -> Organism:
-        return Organism(Population.gen_random_bitstring(chrom_len))
-
-
-    @staticmethod
-    def gen_random_bitstring(length: int) -> list[Bit]:
+    def __gen_random_bitstring(length: int) -> list[Bit]:
         return [AsBit(randint(0,1)) for _ in range(length)]
