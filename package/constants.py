@@ -20,7 +20,7 @@ MUTATION_RATE: float = .05
 CROSSOVER_OPERATOR: Literal['uniform', 'single point', 'double point'] = 'uniform'
 CROSSOVER_RATE: float = 1
 POPULATION_SIZE: int = 20
-PRINT_BEST_FITNESS_RATE: int = 1
+PRINT_BEST_FITNESS_RATE: int = 0        # 0 means never
 ELITISM_AMOUNT = 2
 
 
