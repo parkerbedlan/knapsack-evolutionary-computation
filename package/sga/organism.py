@@ -12,20 +12,19 @@ class Organism:
         self.__update_fitness()
     
 
-    def __str__(self):
-        return ''.join([str(x) for x in self.chromosome]) + ' ' + str(self.fitness)
-    
-
     def mutate(self) -> None:
-        mutation_operators = {'bit flip': self.__bitflip}
-        mutation_operators[MUTATION_OPERATOR]()
+        def bitflip(self: Organism) -> None:
+            index = randint(1, len(self.chromosome)) - 1
+            self.chromosome[index] = (self.chromosome[index] + 1) % 2
+        
+        mutation_operators = {'bit flip': bitflip}
+        mutation_operators[MUTATION_OPERATOR](self)
         self.__update_fitness()
 
 
-    def __bitflip(self) -> None:
-        index = randint(1, len(self.chromosome)) - 1
-        self.chromosome[index] = (self.chromosome[index] + 1) % 2
-
+    def __str__(self):
+        return ''.join([str(x) for x in self.chromosome]) + ' ' + str(self.fitness)
+    
 
     def __lt__(self, other: object) -> bool:
         if not isinstance(other, Organism):

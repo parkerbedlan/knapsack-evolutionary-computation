@@ -70,23 +70,21 @@ class Population:
 
     @staticmethod
     def __crossover(parent1: Organism, parent2: Organism) -> tuple[Organism, Organism]:
-        crossover_operators = {'uniform': Population.__uniform}
+        def uniform(parent1: Organism, parent2: Organism) -> tuple[Organism, Organism]:
+            mask = Population.__gen_random_bitstring(len(parent1.chromosome))
+            chromosome1: list[Bit] = []
+            chromosome2: list[Bit] = []
+            for i in range(len(mask)):
+                if mask[i] == 0:
+                    chromosome1.append(parent1.chromosome[i])
+                    chromosome2.append(parent2.chromosome[i])
+                else:
+                    chromosome1.append(parent2.chromosome[i])
+                    chromosome2.append(parent1.chromosome[i])
+            return Organism(chromosome1), Organism(chromosome2)
+
+        crossover_operators = {'uniform': uniform}
         return crossover_operators[CROSSOVER_OPERATOR](parent1, parent2)
-
-
-    @staticmethod
-    def __uniform(parent1: Organism, parent2: Organism) -> tuple[Organism, Organism]:
-        mask = Population.__gen_random_bitstring(len(parent1.chromosome))
-        chromosome1: list[Bit] = []
-        chromosome2: list[Bit] = []
-        for i in range(len(mask)):
-            if mask[i] == 0:
-                chromosome1.append(parent1.chromosome[i])
-                chromosome2.append(parent2.chromosome[i])
-            else:
-                chromosome1.append(parent2.chromosome[i])
-                chromosome2.append(parent1.chromosome[i])
-        return Organism(chromosome1), Organism(chromosome2)
 
 
     def __get_elites(self) -> list[Organism]:
@@ -97,36 +95,33 @@ class Population:
 
 
     def __select_parents(self) -> list[Organism]:
-        selection_operators = {'roulette': self.__roulette, 'rank': self.__rank, 'tournament': self.__tournament} # type: ignore
-        return selection_operators[SELECTION_OPERATOR]()
-    
+        def roulette(self: Population) -> list[Organism]:
+            # add constant to all fitness values so they are all positive
+            lowest_fitness = self.get_worst_fitness()
+            shifter: int = 0
+            if lowest_fitness <= 0:
+                shifter = abs(lowest_fitness) + 1
+            shifted_fitnesses = list(map(lambda x: x + shifter, [org.fitness for org in self.organisms]))
+            total_fitness = sum(shifted_fitnesses)
 
-    def __roulette(self) -> list[Organism]:
-        # add constant to all fitness values so they are all positive
-        lowest_fitness = self.get_worst_fitness()
-        shifter: int = 0
-        if lowest_fitness <= 0:
-            shifter = abs(lowest_fitness) + 1
-        shifted_fitnesses = list(map(lambda x: x + shifter, [org.fitness for org in self.organisms]))
-        total_fitness = sum(shifted_fitnesses)
+            parents: list[Organism] = []
+            for _ in range(POPULATION_SIZE - ELITISM_AMOUNT):
+                spin = randint(1, total_fitness)
+                for i in range(len(shifted_fitnesses)):
+                    spin -= shifted_fitnesses[i]
+                    if spin <= 0:
+                        parents.append(self.organisms[i])
+                        break
+            return parents
+        
+        def rank(self: Population) -> list[Organism]:
+            return NotImplemented
+        
+        def tournament(self: Population) -> list[Organism]:
+            return NotImplemented
 
-        parents: list[Organism] = []
-        for _ in range(POPULATION_SIZE - ELITISM_AMOUNT):
-            spin = randint(1, total_fitness)
-            for i in range(len(shifted_fitnesses)):
-                spin -= shifted_fitnesses[i]
-                if spin <= 0:
-                    parents.append(self.organisms[i])
-                    break
-        return parents
-
-
-    def __rank(self) -> list[Organism]:
-        return NotImplemented
-
-
-    def __tournament(self) -> list[Organism]:
-        return NotImplemented
+        selection_operators = {'roulette': roulette, 'rank': rank, 'tournament': tournament} # type: ignore
+        return selection_operators[SELECTION_OPERATOR](self)
 
 
     @staticmethod
