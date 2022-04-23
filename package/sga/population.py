@@ -6,6 +6,7 @@ from package.constants import CROSSOVER_OPERATOR, CROSSOVER_RATE, ELITISM_AMOUNT
 class Population:
     generation_number: int
     organisms: list[Organism] # always sorted in order of fitness
+    best_organism_ever: Organism # always updated
 
 
     def __init__(self):
@@ -13,6 +14,7 @@ class Population:
         chrom_len = len(ITEMS)
         self.organisms = [Population.gen_random_org(chrom_len) for _ in range(POPULATION_SIZE)]
         self.organisms.sort()
+        self.best_organism_ever = self.get_best_organism()
 
 
     def perform_generation(self) -> None:
@@ -42,6 +44,8 @@ class Population:
 
         self.organisms = mutated_children
         self.organisms.sort()
+
+        self.best_organism_ever = max(self.best_organism_ever, self.get_best_organism())
 
 
     @staticmethod

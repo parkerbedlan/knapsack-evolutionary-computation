@@ -8,7 +8,7 @@ def run_test() -> int:
         if PRINT_BEST_FITNESS_RATE != 0 and population.generation_number % PRINT_BEST_FITNESS_RATE == 0:
             print('best fitness of generation %d: %d' % (population.generation_number, population.get_best_fitness()))
         population.perform_generation()
-    winner = population.get_best_organism()
+    winner = population.best_organism_ever
     print(str(winner))
     return winner.fitness
 
