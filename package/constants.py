@@ -13,13 +13,13 @@ def AsBit(before: int) -> Bit:
     return 0 if before == 0 else 1
 
 
-DATASET_NAME: str = 'p01.dat'
+DATASET_NAME: str = 'p07.dat'
 SELECTION_OPERATOR: Literal['tournament', 'roulette', 'rank']  = 'roulette'
 MUTATION_OPERATOR: Literal['bit flip', 'bit flip best of 3', 'PE', 'C3', 'SM'] = 'bit flip'
 MUTATION_RATE: float = .05
 CROSSOVER_OPERATOR: Literal['uniform', 'single point', 'double point'] = 'uniform'
 CROSSOVER_RATE: float = 1
-POPULATION_SIZE: int = 20
+POPULATION_SIZE: int = 400
 PRINT_BEST_FITNESS_RATE: int = 0        # 0 means never
 ELITISM_AMOUNT = 2
 

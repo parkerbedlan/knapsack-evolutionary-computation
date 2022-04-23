@@ -36,11 +36,9 @@ class Population:
                 mutated_children.append(parent1)
                 mutated_children.append(parent2)
 
-
         for child in mutated_children:
             if random() < MUTATION_RATE:
                 child.mutate()
-
 
         self.organisms = mutated_children
         self.organisms.sort()
@@ -115,28 +113,22 @@ class Population:
         return less_than_1percent_difference or self.generation_number >= 1000
 
 
+    def get_best_organism(self) -> Organism:
+        return self.organisms[-1]
+
+
     def get_best_fitness(self) -> int:
-        return max([org.fitness for org in self.organisms])
+        return self.organisms[-1].fitness
     
 
-    # todo: make more efficient using knowledge of when sort last happened
-    def get_best_organism(self) -> Organism:
-        winner: Organism = self.organisms[0]
-        for org in self.organisms:
-            if org.fitness > winner.fitness:
-                winner = org
-        return winner
-
-
-    # todo: make more efficient using knowledge of when sort last happened
     def get_worst_fitness(self) -> int:
-        return min([org.fitness for org in self.organisms])
-
+        return self.organisms[0].fitness
 
 
     @staticmethod
     def gen_random_org(chrom_len: int) -> Organism:
         return Organism(Population.gen_random_bitstring(chrom_len))
+
 
     @staticmethod
     def gen_random_bitstring(length: int) -> list[Bit]:

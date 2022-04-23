@@ -4,7 +4,7 @@ from package.constants import CAPACITY, ITEMS, MUTATION_OPERATOR, Bit
 
 class Organism:
     chromosome: list[Bit]
-    fitness: int
+    fitness: int    # always updated based on chromosome
 
 
     def __init__(self, chromosome: list[Bit]) -> None:

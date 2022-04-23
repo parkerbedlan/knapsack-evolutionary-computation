@@ -23,4 +23,4 @@ def run_tests(num_tests: int) -> None:
 
 
 def main():
-    run_tests(100)
+    run_tests(5)
