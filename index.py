@@ -1,4 +1,5 @@
-from sga.organism import Organism
+from package.main import main
 
-org = Organism()
-org.say_hi()
+
+if __name__ == '__main__':
+    main()
