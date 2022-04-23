@@ -15,7 +15,7 @@ def AsBit(before: int) -> Bit:
 
 DATASET_NAME: str = 'p08.dat'
 SELECTION_OPERATOR: Literal['tournament', 'roulette', 'rank']  = 'roulette'
-MUTATION_OPERATOR: Literal['bit flip', 'bit flip best of 3', 'PE', 'C3', 'SM'] = 'bit flip'
+MUTATION_OPERATOR: Literal['bit flip', 'bit flip best of 3', 'PE', 'C3', 'SM'] = 'bit flip best of 3'
 MUTATION_RATE: float = .05
 CROSSOVER_OPERATOR: Literal['uniform', 'single point', 'double point'] = 'uniform'
 CROSSOVER_RATE: float = 1

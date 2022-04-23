@@ -1,5 +1,5 @@
 from random import randint
-from package.constants import CAPACITY, ITEMS, MUTATION_OPERATOR, Bit
+from package.constants import CAPACITY, ITEMS, MUTATION_OPERATOR, AsBit, Bit
 
 
 class Organism:
@@ -17,7 +17,16 @@ class Organism:
             index = randint(1, len(self.chromosome)) - 1
             self.chromosome[index] = (self.chromosome[index] + 1) % 2
         
-        mutation_operators = {'bit flip': bitflip}
+        def bitflip_bo3(self: Organism) -> None:
+            chromosomes = [self.chromosome.copy() for _ in range(3)]
+            organisms: list[Organism] = []
+            for i in range(3):
+                index = randint(1, len(self.chromosome)) - 1
+                chromosomes[i][index] = AsBit((self.chromosome[index] + 1) % 2)
+                organisms.append(Organism(chromosomes[i]))
+            self.chromosome = max(organisms).chromosome
+        
+        mutation_operators = {'bit flip': bitflip, 'bit flip best of 3': bitflip_bo3}
         mutation_operators[MUTATION_OPERATOR](self)
         self.__update_fitness()
 
@@ -43,7 +52,7 @@ class Organism:
         total_weight, total_value = self.__get_total_weight_and_value()
         
         remaining_weight = CAPACITY - total_weight
-        # experiment with whether to make this conditional
+        # experiment with the deduction multiplier, 4 may be better than 5
         if remaining_weight < 0:
             deduction = 5 * remaining_weight
         else:

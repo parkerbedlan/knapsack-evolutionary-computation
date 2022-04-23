@@ -1,6 +1,3 @@
-TODO: for data aggregation, use actual total_value of best organism rather than fitness value
-TODO: use best of 3 for bit flip mutation
-
 problem: 0-1 Knapsack
 
 ----------------- SGA (Simple Genetic Algorithm) -----------------
