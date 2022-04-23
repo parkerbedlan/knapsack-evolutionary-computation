@@ -22,6 +22,13 @@ class Organism:
         self.__update_fitness()
 
 
+    def get_total_value(self) -> int:
+        total_weight, total_value = self.__get_total_weight_and_value()
+        if total_weight > CAPACITY:
+            return 0
+        return total_value
+
+
     def __str__(self):
         return ''.join([str(x) for x in self.chromosome]) + ' ' + str(self.fitness)
     
@@ -33,12 +40,7 @@ class Organism:
 
 
     def __update_fitness(self) -> None:
-        total_weight = 0
-        total_value = 0    
-        for i in range(len(ITEMS)):
-            if self.chromosome[i] == 1:
-                total_weight += ITEMS[i].weight
-                total_value += ITEMS[i].value
+        total_weight, total_value = self.__get_total_weight_and_value()
         
         remaining_weight = CAPACITY - total_weight
         # experiment with whether to make this conditional
@@ -48,3 +50,14 @@ class Organism:
             deduction = 0
         
         self.fitness = total_value + deduction
+    
+
+    def __get_total_weight_and_value(self) -> tuple[int, int]:
+        total_weight = 0
+        total_value = 0    
+        for i in range(len(ITEMS)):
+            if self.chromosome[i] == 1:
+                total_weight += ITEMS[i].weight
+                total_value += ITEMS[i].value
+        
+        return total_weight, total_value
