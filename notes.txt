@@ -1,0 +1,47 @@
+problem: 0-1 Knapsack
+
+----------------- SGA (Simple Genetic Algorithm) -----------------
+2 different selection techniques (roulette, tournament, rank)
+2 different crossover operators
+2 different mutation operators
+crossover rate
+mutation rate
+
+n items, each with index i, weight w, and value v, and a knapsack that can carry c pounds
+chromosome representation: binary string of length n. 0 means not taking that item, 1 means taking that item.
+fitness function: total value of all carried items - 5*weight overshoot (experiment with changing the overshoot coefficient)
+elitism: yes, but maybe only allow up to 2 old chromosomes move on
+termination: probably convergence (all answers within 1% of each other) or x number of generations, whichever comes first
+initial population generation: random (no duplicates? experiment with this)
+population size: start with 20, experiment with it, probably 200-400
+selection techniques: probably try all 3 (roulette, rank, tournament) but definitely include tournament (apparently it's often best)
+crossover rate: start with 100%, experiment with it, probably 80%-100%
+crossover operations: single point, double point, uniform with randomly generated bit mask
+mutation rate: start with 5% or 10%, probably make it adaptive
+mutation operations: PE, C3, bit flip (single move seems like it'd be dumb here but I guess I could try that too)
+    consider each time generating 3 random mutations and taking the best one
+datasets: https://people.sc.fsu.edu/~jburkardt/datasets/knapsack_01/knapsack_01.html
+    maybe grab some more
+
+
+
+
+----------------- SA (Simulated Annealing) -----------------
+
+
+
+
+
+
+
+----------------- FHC (Foolish Hill Climbing) -----------------
+"Use the Simulated Annealing Algorithm that you developed and remove the option of allowing for a worse solution.  That is, this version of the general Hill Climbing Algorithm does not allow worse answers under any circumstances."
+
+
+
+
+
+
+random resources
+solver (if needed for verifying optimality): https://developers.google.com/optimization/bin/knapsack
+Pyvolution (if needed for structuring code): https://pyvolution.readthedocs.io/en/latest/Overview.html#fitness-py https://pypi.org/project/Pyvolution/

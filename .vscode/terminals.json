@@ -1,0 +1,10 @@
+{
+  "autorun": false,
+  "terminals": [
+    {
+      "description": "run code",
+      "focus": true,
+      "command": "pypy index.py"
+    }
+  ]
+}
