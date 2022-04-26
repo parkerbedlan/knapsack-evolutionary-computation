@@ -43,6 +43,11 @@ class Organism:
             return NotImplemented
         return self.fitness < other.fitness
 
+    def __gt__(self, other: object) -> bool:
+        if not isinstance(other, Organism):
+            return NotImplemented
+        return self.fitness > other.fitness
+
     def __update_fitness(self) -> None:
         total_weight, total_value = self.__get_total_weight_and_value()
 

@@ -1,3 +1,11 @@
+TODO: implement tournament selection
+TODO: implement sa/fhc
+
+TODO: handle infeasibles?
+TODO: keep track of number of generations (how many it took for best, how many it took for worst, average amount)
+
+TODO: implement n simulated annealing restarts (from best)
+
 problem: 0-1 Knapsack
 
 ----------------- SGA (Simple Genetic Algorithm) -----------------

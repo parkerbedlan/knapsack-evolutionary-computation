@@ -10,9 +10,8 @@ class Population:
 
     def __init__(self):
         self.generation_number = 0
-        chrom_len = len(ITEMS)
-        self.organisms = [Population.__gen_random_org(
-            chrom_len) for _ in range(POPULATION_SIZE)]
+        self.organisms = [Population.gen_random_org()
+                          for _ in range(POPULATION_SIZE)]
         self.organisms.sort()
         self.best_organism_ever = self.get_best_organism()
 
@@ -120,8 +119,8 @@ class Population:
         return selection_operators[SELECTION_OPERATOR](self)
 
     @staticmethod
-    def __gen_random_org(chrom_len: int) -> Organism:
-        return Organism(Population.__gen_random_bitstring(chrom_len))
+    def gen_random_org() -> Organism:
+        return Organism(Population.__gen_random_bitstring(len(ITEMS)))
 
     @staticmethod
     def __gen_random_bitstring(length: int) -> list[Bit]:
