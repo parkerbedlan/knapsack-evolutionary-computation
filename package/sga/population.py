@@ -1,6 +1,6 @@
 from random import randint, random
 from package.sga.organism import Organism
-from package.constants import CROSSOVER_OPERATOR, CROSSOVER_RATE, ELITISM_AMOUNT, ITEMS, MUTATION_RATE, POPULATION_SIZE, SELECTION_OPERATOR, AsBit, Bit
+from package.constants import CROSSOVER_OPERATOR, CROSSOVER_RATE, ELITISM_AMOUNT, GENERATION_THRESHOLD, ITEMS, MUTATION_RATE, POPULATION_SIZE, SELECTION_OPERATOR, TOURNAMENT_K, AsBit, Bit
 
 
 class Population:
@@ -52,7 +52,9 @@ class Population:
         difference = abs(best_fitness - worst_fitness)
         less_than_1percent_difference = difference < .01 * \
             min(abs(best_fitness), abs(worst_fitness))
-        return less_than_1percent_difference or self.generation_number >= 1000
+        if GENERATION_THRESHOLD == -1:
+            return less_than_1percent_difference
+        return less_than_1percent_difference or self.generation_number >= GENERATION_THRESHOLD
 
     def get_best_organism(self) -> Organism:
         return self.organisms[-1]
@@ -65,8 +67,24 @@ class Population:
 
     @staticmethod
     def __crossover(parent1: Organism, parent2: Organism) -> tuple[Organism, Organism]:
-        def uniform(parent1: Organism, parent2: Organism) -> tuple[Organism, Organism]:
+        def uniform(parent1: Organism, parent2: Organism):
             mask = Population.__gen_random_bitstring(len(parent1.chromosome))
+            return crossover_from_mask(parent1, parent2, mask)
+
+        def single_point(parent1: Organism, parent2: Organism):
+            point = randint(1, len(parent1.chromosome)-1)
+            mask = [0 if i < point else 1 for i in range(
+                len(parent1.chromosome))]
+            return crossover_from_mask(parent1, parent2, mask)  # type:ignore
+
+        def double_point(parent1: Organism, parent2: Organism):
+            point1, point2 = sorted(
+                [randint(1, len(parent1.chromosome)-1) for _ in range(2)])
+            mask = [1 if i >= point1 and i <
+                    point2 else 0 for i in range(len(parent1.chromosome))]
+            return crossover_from_mask(parent1, parent2, mask)  # type:ignore
+
+        def crossover_from_mask(parent1: Organism, parent2: Organism, mask: list[Bit]) -> tuple[Organism, Organism]:
             chromosome1: list[Bit] = []
             chromosome2: list[Bit] = []
             for i in range(len(mask)):
@@ -78,7 +96,8 @@ class Population:
                     chromosome2.append(parent1.chromosome[i])
             return Organism(chromosome1), Organism(chromosome2)
 
-        crossover_operators = {'uniform': uniform}
+        crossover_operators = {'uniform': uniform,
+                               'single point': single_point, 'double point': double_point}
         return crossover_operators[CROSSOVER_OPERATOR](parent1, parent2)
 
     def __get_elites(self) -> list[Organism]:
@@ -112,7 +131,15 @@ class Population:
             return NotImplemented
 
         def tournament(self: Population) -> list[Organism]:
-            return NotImplemented
+            parents: list[Organism] = []
+            for _ in range(POPULATION_SIZE - ELITISM_AMOUNT):
+                fighter1 = self.organisms[randint(1, len(self.organisms)) - 1]
+                fighter2 = self.organisms[randint(1, len(self.organisms)) - 1]
+                if random() < TOURNAMENT_K:
+                    parents.append(max(fighter1, fighter2))
+                else:
+                    parents.append(min(fighter1, fighter2))
+            return parents
 
         selection_operators = {
             'roulette': roulette, 'rank': rank, 'tournament': tournament}  # type: ignore

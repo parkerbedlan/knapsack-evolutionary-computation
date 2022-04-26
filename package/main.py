@@ -2,11 +2,12 @@ from typing import Callable
 from package.constants import *
 from package.sga.population import Population
 from package.climbing.climber import Climber
+import time
 
 
 def run_test() -> dict[str, int]:
     def ga_test():
-        print('running ga test')
+        # print('running ga test')
         population = Population()
         while not population.is_finished():
             if PRINT_BEST_FITNESS_RATE != -1 and population.generation_number % PRINT_BEST_FITNESS_RATE == 0:
@@ -65,4 +66,18 @@ Average closeness to optimal: %.2f%%
 
 
 def main():
-    run_tests(5)
+    start_time = time.time()
+    if MODE == 'GA':
+        settings = 'GA: %s, selection=%s, k=%s, mutation=%s %.2f, crossover=%s %.2f, population size=%d, generation threshold=%d, elitism=%d' % (
+            DATASET_NAME, SELECTION_OPERATOR, TOURNAMENT_K, MUTATION_OPERATOR, MUTATION_RATE, CROSSOVER_OPERATOR, CROSSOVER_RATE, POPULATION_SIZE, GENERATION_THRESHOLD, ELITISM_AMOUNT)
+    elif FOOLISH_MODE:
+        settings = 'running FHC: %s, no change threshold=%d' % (
+            DATASET_NAME, NO_CHANGE_THRESHOLD)
+    else:
+        settings = 'running SA: %s, alpha=%f, i_0=%d, beta=%f, no change threshold=%d' % (
+            DATASET_NAME, ALPHA, I_0, BETA, NO_CHANGE_THRESHOLD)
+    print(settings)
+    run_tests(100)
+    print(settings)
+    print(CROSSOVER_OPERATOR)
+    print('finished in %.2f seconds' % (time.time() - start_time))

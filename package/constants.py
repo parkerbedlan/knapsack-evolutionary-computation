@@ -5,19 +5,22 @@ from package.item import Item
 DATASET_NAME: str = 'p08.dat'
 MUTATION_OPERATOR: Literal['bit flip', 'bit flip best of 3',
                            'PE', 'C3', 'SM'] = 'bit flip best of 3'
-MODE: Literal['GA', 'Climbing'] = 'Climbing'
+MODE: Literal['GA', 'Climbing'] = 'GA'
 
 
 # GA settings
 SELECTION_OPERATOR: Literal['tournament', 'roulette', 'rank'] = 'roulette'
-TOURNAMENT_K: float = .75   # only used if SELECTION_OPERATOR is 'tournament'
+TOURNAMENT_K: float = .85   # only used if SELECTION_OPERATOR is 'tournament'
 MUTATION_RATE: float = .15
 CROSSOVER_OPERATOR: Literal['uniform',
                             'single point', 'double point'] = 'uniform'
 CROSSOVER_RATE: float = 1
-POPULATION_SIZE: int = 100
 PRINT_BEST_FITNESS_RATE: int = -1    # -1 means never
 ELITISM_AMOUNT = 2
+# -1 means no generation threshold (could lead to infinite loop)
+# 2*(POPULATION_SIZE**2) seems to be pretty good
+POPULATION_SIZE: int = 20
+GENERATION_THRESHOLD: int = 800
 
 # SA / FHC settings
 FOOLISH_MODE: bool = False
@@ -25,7 +28,7 @@ ALPHA: float = .98  # cooling coefficient
 I_0: int = 10     # initial amount of iterations between each cooling
 BETA: float = 1.02  # multiplier for amount of iterations between cooling
 # threshold for how many iterations in a row lead to no change before quitting
-NO_CHANGE_THRESHOLD: int = 100
+NO_CHANGE_THRESHOLD: int = 1000
 # threshold for temperature to quit simulated annealing
 # TEMPERATURE_THRESHOLD: int = 1
 
