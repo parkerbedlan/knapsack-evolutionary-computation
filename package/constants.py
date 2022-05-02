@@ -2,14 +2,14 @@ from typing import Literal
 from package.item import Item
 
 # general settings
-DATASET_NAME: str = 'p08.dat'
-MUTATION_OPERATOR: Literal['bit flip', 'bit flip best of 3',
-                           'PE', 'C3', 'SM'] = 'bit flip best of 3'
+DATASET_NAME: str = '269.dat'
+MUTATION_OPERATOR: Literal['bit flip',
+                           'bit flip best of 3', 'PE'] = 'bit flip best of 3'
 MODE: Literal['GA', 'Climbing'] = 'GA'
 
 
 # GA settings
-SELECTION_OPERATOR: Literal['tournament', 'roulette', 'rank'] = 'roulette'
+SELECTION_OPERATOR: Literal['tournament', 'roulette'] = 'roulette'
 TOURNAMENT_K: float = .85   # only used if SELECTION_OPERATOR is 'tournament'
 MUTATION_RATE: float = .15
 CROSSOVER_OPERATOR: Literal['uniform',
@@ -19,8 +19,8 @@ PRINT_BEST_FITNESS_RATE: int = -1    # -1 means never
 ELITISM_AMOUNT = 2
 # -1 means no generation threshold (could lead to infinite loop)
 # 2*(POPULATION_SIZE**2) seems to be pretty good
-POPULATION_SIZE: int = 20
-GENERATION_THRESHOLD: int = 800
+POPULATION_SIZE: int = 100
+GENERATION_THRESHOLD: int = 20000
 
 # SA / FHC settings
 FOOLISH_MODE: bool = False

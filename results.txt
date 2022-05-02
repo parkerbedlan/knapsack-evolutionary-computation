@@ -1,0 +1,14 @@
+0111000111 295
+--------------------------------------------------
+5 tests performed. Results:
+Best fitness: {'fitness': 295, 'generations': 20000}
+Best closeness to optimal: 100.00%
+Frequency of best: 100.00%
+Worst fitness: {'fitness': 295, 'generations': 20000}
+Average fitness: 295
+Average number of generations: 20000
+Average closeness to optimal: 100.00%
+--------------------------------------------------
+GA: 269.dat, selection=roulette, k=0.85, mutation=bit flip best of 3 0.15, crossover=uniform 1.00, population size=100, generation threshold=20000, elitism=2
+uniform
+finished in 169.08 seconds

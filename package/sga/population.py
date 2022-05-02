@@ -127,9 +127,6 @@ class Population:
                         break
             return parents
 
-        def rank(self: Population) -> list[Organism]:
-            return NotImplemented
-
         def tournament(self: Population) -> list[Organism]:
             parents: list[Organism] = []
             for _ in range(POPULATION_SIZE - ELITISM_AMOUNT):
@@ -142,7 +139,7 @@ class Population:
             return parents
 
         selection_operators = {
-            'roulette': roulette, 'rank': rank, 'tournament': tournament}  # type: ignore
+            'roulette': roulette, 'tournament': tournament}  # type: ignore
         return selection_operators[SELECTION_OPERATOR](self)
 
     @staticmethod

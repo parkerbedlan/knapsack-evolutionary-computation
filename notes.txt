@@ -1,5 +1,11 @@
-TODO: implement tournament selection
-TODO: implement sa/fhc
+TODO: get better data
+    toy
+    medium
+    large
+
+run tests in several terminals and store in spreadsheet
+    
+
 
 TODO: handle infeasibles?
 TODO: keep track of number of generations (how many it took for best, how many it took for worst, average amount)

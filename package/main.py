@@ -77,7 +77,7 @@ def main():
         settings = 'running SA: %s, alpha=%f, i_0=%d, beta=%f, no change threshold=%d' % (
             DATASET_NAME, ALPHA, I_0, BETA, NO_CHANGE_THRESHOLD)
     print(settings)
-    run_tests(100)
+    run_tests(5)
     print(settings)
     print(CROSSOVER_OPERATOR)
     print('finished in %.2f seconds' % (time.time() - start_time))

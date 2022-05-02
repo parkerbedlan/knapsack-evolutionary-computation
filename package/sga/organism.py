@@ -24,8 +24,17 @@ class Organism:
                 organisms.append(Organism(chromosomes[i]))
             self.chromosome = max(organisms).chromosome
 
+        def pairwise_exchange(self: Organism) -> None:
+            index1 = randint(0, len(self.chromosome) - 1)
+            index2 = randint(0, len(self.chromosome) - 1)
+            while index2 == index1:
+                index2 = randint(0, len(self.chromosome) - 1)
+            temp = self.chromosome[index1]
+            self.chromosome[index1] = self.chromosome[index2]
+            self.chromosome[index2] = temp
+
         mutation_operators = {'bit flip': bitflip,
-                              'bit flip best of 3': bitflip_bo3}
+                              'bit flip best of 3': bitflip_bo3, 'PE': pairwise_exchange}
         mutation_operators[MUTATION_OPERATOR](self)
         self.__update_fitness()
 
