@@ -2,9 +2,9 @@ from typing import Literal
 from package.item import Item
 
 # general settings
-DATASET_NAME: str = '269.dat'
+DATASET_NAME: str = 'toy.dat'
 MUTATION_OPERATOR: Literal['bit flip',
-                           'bit flip best of 3', 'PE'] = 'bit flip best of 3'
+                           'bit flip best of 3', 'PE'] = 'PE'
 MODE: Literal['GA', 'Climbing'] = 'GA'
 
 
@@ -13,22 +13,22 @@ SELECTION_OPERATOR: Literal['tournament', 'roulette'] = 'roulette'
 TOURNAMENT_K: float = .85   # only used if SELECTION_OPERATOR is 'tournament'
 MUTATION_RATE: float = .15
 CROSSOVER_OPERATOR: Literal['uniform',
-                            'single point', 'double point'] = 'uniform'
+                            'single point', 'double point'] = 'single point'
 CROSSOVER_RATE: float = 1
 PRINT_BEST_FITNESS_RATE: int = -1    # -1 means never
 ELITISM_AMOUNT = 2
 # -1 means no generation threshold (could lead to infinite loop)
 # 2*(POPULATION_SIZE**2) seems to be pretty good
-POPULATION_SIZE: int = 100
-GENERATION_THRESHOLD: int = 20000
+POPULATION_SIZE: int = 100  # 20 for testing, 100 for real deal
+GENERATION_THRESHOLD: int = 20000  # 800 for testing, 20000 for real deal
 
 # SA / FHC settings
-FOOLISH_MODE: bool = False
+FOOLISH_MODE: bool = True
 ALPHA: float = .98  # cooling coefficient
 I_0: int = 10     # initial amount of iterations between each cooling
 BETA: float = 1.02  # multiplier for amount of iterations between cooling
 # threshold for how many iterations in a row lead to no change before quitting
-NO_CHANGE_THRESHOLD: int = 1000
+NO_CHANGE_THRESHOLD: int = 20000
 # threshold for temperature to quit simulated annealing
 # TEMPERATURE_THRESHOLD: int = 1
 

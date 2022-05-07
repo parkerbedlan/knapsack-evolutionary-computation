@@ -43,8 +43,8 @@ class Population:
         self.organisms = mutated_children
         self.organisms.sort()
 
-        self.best_organism_ever = max(
-            self.best_organism_ever, self.get_best_organism())
+        if self.get_best_organism().get_total_value() > self.best_organism_ever.get_total_value():
+            self.best_organism_ever = self.get_best_organism()
 
     def is_finished(self):
         best_fitness = self.get_best_fitness()

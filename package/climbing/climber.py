@@ -12,6 +12,7 @@ def standard_deviation(arr: list[int]):
 
 
 class Climber:
+    initial_temperature: float
     current_organism: Organism
     best_organism_ever: Organism
     temperature: float
@@ -22,7 +23,8 @@ class Climber:
     def __init__(self):
         self.current_organism = Population.gen_random_org()
         self.best_organism_ever = self.current_organism
-        self.temperature = Climber.__get_initial_temperature()
+        self.initial_temperature = Climber.__get_initial_temperature()
+        self.temperature = self.initial_temperature
         self.iterations_per_session = I_0
         self.iterations_without_change = 0
         self.total_iterations = 0
@@ -59,4 +61,6 @@ class Climber:
     def __get_initial_temperature():
         random_fitnesses = [
             Population.gen_random_org().fitness for _ in range(200)]
-        return standard_deviation(random_fitnesses)
+        output = standard_deviation(random_fitnesses)
+        # print('INITIAL TEMPERATURE: ', output)
+        return output
